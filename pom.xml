@@ -6,7 +6,10 @@
 	<artifactId>page-factory</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
+
 	<name>Metalloid Page Factory</name>
+	<url>https://github.com/Metalloid-Project/Metalloid-Page-Factory</url>
+	<description>Extension of Page Factory implemented in Selenium WebDriver library</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -56,6 +59,13 @@
 			<name>Rafał Laskowski</name>
 			<email>metalloidproject@gmail.com</email>
 			<organization>TestOps - Rafał Laskowski</organization>
+			<organizationUrl>https://github.com/Metalloid-Project</organizationUrl>
 		</developer>
 	</developers>
+
+	<scm>
+		<connection>scm:git:git://github.com/Metalloid-Project/Metalloid-Page-Factory.git</connection>
+		<developerConnection>scm:git:ssh://github.com/Metalloid-Project/Metalloid-Page-Factory.git</developerConnection>
+		<url>https://github.com/Metalloid-Project/Metalloid-Page-Factory</url>
+	</scm>
 </project>
