@@ -1,13 +1,13 @@
 package demo;
 
-import com.metalloid.pagefactory.FindAll;
-import com.metalloid.pagefactory.FindBy;
-import com.metalloid.pagefactory.PageFactory;
-import com.metalloid.pagefactory.components.FindComponent;
-import com.metalloid.pagefactory.conditions.ExpectedCondition;
-import com.metalloid.pagefactory.conditions.Visibility;
-import com.metalloid.pagefactory.controls.TextField;
-import com.metalloid.webdriver.utils.*;
+import com.github.metalloid.pagefactory.FindAll;
+import com.github.metalloid.pagefactory.FindBy;
+import com.github.metalloid.pagefactory.PageFactory;
+import com.github.metalloid.pagefactory.components.FindComponent;
+import com.github.metalloid.pagefactory.conditions.ExpectedCondition;
+import com.github.metalloid.pagefactory.conditions.Visibility;
+import com.github.metalloid.pagefactory.controls.TextField;
+import com.github.metalloid.webdriver.utils.*;
 import demo.components.SearchComponent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

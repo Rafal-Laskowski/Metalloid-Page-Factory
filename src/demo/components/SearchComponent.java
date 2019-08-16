@@ -1,8 +1,8 @@
 package demo.components;
 
-import com.metalloid.pagefactory.FindBy;
-import com.metalloid.pagefactory.components.Component;
-import com.metalloid.pagefactory.controls.TextField;
+import com.github.metalloid.pagefactory.FindBy;
+import com.github.metalloid.pagefactory.components.Component;
+import com.github.metalloid.pagefactory.controls.TextField;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
