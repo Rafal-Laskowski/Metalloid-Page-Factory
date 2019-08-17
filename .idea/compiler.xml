@@ -6,8 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Metalloid-Page-Factory" />
+        <module name="page-factory" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Metalloid-Page-Factory" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
