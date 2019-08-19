@@ -2,22 +2,22 @@
 
 Maven dependency:
 ```
-        <dependency>
-            <groupId>com.github.metalloid-project</groupId>
-            <artifactId>page-factory</artifactId>
-            <version>1.0.0</version>
-        </dependency>
+<dependency>
+	<groupId>com.github.metalloid-project</groupId>
+	<artifactId>page-factory</artifactId>
+	<version>1.0.0</version>
+</dependency>
 ```
 
 Compiled with `Java 1.8`
 
 Already contains dependency:
 ```
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-java</artifactId>
-			<version>3.141.59</version>
-		</dependency>
+<dependency>
+	<groupId>org.seleniumhq.selenium</groupId>
+	<artifactId>selenium-java</artifactId>
+	<version>3.141.59</version>
+</dependency>
 ```
 
 Metalloid is an extension of Selenium WebDriver's Page Factory solution. 
