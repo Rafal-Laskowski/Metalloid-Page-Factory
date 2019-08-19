@@ -1,2 +1,1 @@
-# Metalloid Page Factory
-
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.metalloid-project/page-factory/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.metalloid-project/page-factory)
