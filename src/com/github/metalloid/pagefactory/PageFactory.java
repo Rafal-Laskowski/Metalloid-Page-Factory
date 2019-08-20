@@ -2,8 +2,6 @@ package com.github.metalloid.pagefactory;
 
 import com.github.metalloid.pagefactory.components.Component;
 import com.github.metalloid.pagefactory.components.FindComponent;
-import com.github.metalloid.pagefactory.conditions.MetalloidConditionDecorator;
-import com.github.metalloid.webdriver.utils.UtilsFactory;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.pagefactory.DefaultElementLocatorFactory;
@@ -15,19 +13,17 @@ public class PageFactory {
 
 	public static void init(WebDriver driver, Object page) {
 		init(driver, driver, page);
-		UtilsFactory.initUtilities(driver, page);
 	}
 
 	private static void init(WebDriver driver, SearchContext searchContext, Object page) {
-		MetalloidControlLocatorFactory controlLocatorFactory = new MetalloidControlLocatorFactory(searchContext);
 		org.openqa.selenium.support.PageFactory
-				.initElements(new MetalloidConditionDecorator(driver, new MetalloidControlDecorator(driver, controlLocatorFactory)), page);
+				.initElements(new MetalloidControlDecorator(driver, new MetalloidControlLocatorFactory(searchContext)), page);
 		org.openqa.selenium.support.PageFactory
-				.initElements(new MetalloidConditionDecorator(driver, new WebElementFieldDecorator(new DefaultElementLocatorFactory(searchContext))), page);
-		initComponents(driver, driver, page);
+				.initElements(new WebElementFieldDecorator(new DefaultElementLocatorFactory(searchContext)), page);
+		initComponents(driver, page);
 	}
 
-	private static void initComponents(WebDriver driver, SearchContext searchContext, Object page) {
+	private static void initComponents(WebDriver driver, Object page) {
 		initElements(driver, driver, page);
 	}
 
