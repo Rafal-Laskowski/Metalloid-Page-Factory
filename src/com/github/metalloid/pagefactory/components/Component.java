@@ -15,7 +15,6 @@ public class Component implements SearchContext {
 	
 	public boolean exists() {
 		try {
-			System.out.println(selector);
 			element();
 			return true;
 		} catch (NoSuchElementException e) {
