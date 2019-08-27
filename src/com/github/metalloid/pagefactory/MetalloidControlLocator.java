@@ -23,16 +23,6 @@ public class MetalloidControlLocator extends DefaultElementLocator implements El
 		this.by = annotations.buildBy();
 		this.searchContext = searchContext;
 	}
-
-	@Override
-	public WebElement findElement() {
-		return searchContext.findElement(by);
-	}
-
-	@Override
-	public List<WebElement> findElements() {
-		return searchContext.findElements(by);
-	}
 	
 	public By getLocator() { 
 		return by;

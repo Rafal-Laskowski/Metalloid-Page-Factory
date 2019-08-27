@@ -2,9 +2,9 @@ package com.github.metalloid.pagefactory;
 
 import org.openqa.selenium.By;
 
-class FindByParser {
+public class FindByParser {
 	
-	static By parse(FindBy findBy) {
+	public static By parse(FindBy findBy) {
 		if (!findBy.id().equals(""))
 			return By.id(findBy.id());
 		else if (!findBy.css().equals(""))

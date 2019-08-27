@@ -16,14 +16,24 @@ public class PageFactory {
 	}
 
 	private static void init(WebDriver driver, SearchContext searchContext, Object page) {
-		org.openqa.selenium.support.PageFactory
-				.initElements(new MetalloidControlDecorator(driver, new MetalloidControlLocatorFactory(searchContext)), page);
-		org.openqa.selenium.support.PageFactory
-				.initElements(new WebElementFieldDecorator(new DefaultElementLocatorFactory(searchContext)), page);
-		initComponents(driver, searchContext, page);
+		initializeControls(driver, searchContext, page);
+		initializeWebElements(searchContext, page);
+		initInjectableComponents(driver, searchContext, page);
+		initNonInjectableComponents(driver, page);
 	}
 
-	private static void initComponents(WebDriver driver, SearchContext searchContext, Object page) {
+	private static void initNonInjectableComponents(WebDriver driver, Object page) {
+		FindBy findBy = page.getClass().getAnnotation(FindBy.class);
+		if (findBy != null && Component.class.isAssignableFrom(page.getClass())) {
+			SearchContext searchContext = (Component) page;
+
+			initializeControls(driver, searchContext, page);
+			initializeWebElements(searchContext, page);
+			initInjectableComponents(driver, searchContext, page);
+		}
+	}
+
+	private static void initInjectableComponents(WebDriver driver, SearchContext searchContext, Object page) {
 		for (Field field : page.getClass().getDeclaredFields()) {
 			Annotation findComponentAnnotation = field.getAnnotation(FindComponent.class);
 			if (findComponentAnnotation != null) {
@@ -43,6 +53,16 @@ public class PageFactory {
 		}
 	}
 
+	private static void initializeControls(WebDriver driver, SearchContext searchContext, Object page) {
+		org.openqa.selenium.support.PageFactory
+				.initElements(new MetalloidControlDecorator(driver, new MetalloidControlLocatorFactory(searchContext)), page);
+	}
+
+	private static void initializeWebElements(SearchContext searchContext, Object page) {
+		org.openqa.selenium.support.PageFactory
+				.initElements(new WebElementFieldDecorator(new DefaultElementLocatorFactory(searchContext)), page);
+	}
+
 	private static void finalizeField(Object page, Field field, Object value) {
 		try {
 			field.setAccessible(true);
@@ -51,5 +71,4 @@ public class PageFactory {
 			throw new RuntimeException(e);
 		}
 	}
-
 }
