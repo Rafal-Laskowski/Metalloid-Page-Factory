@@ -8,7 +8,7 @@ public class Component implements SearchContext {
 	private final WebDriver driver;
 	private final By selector;
 	
-	public Component(WebDriver driver, By selector) {
+	protected Component(WebDriver driver, By selector) {
 		this.driver = driver;
 		this.selector = selector;
 	}

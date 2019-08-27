@@ -20,14 +20,10 @@ public class PageFactory {
 				.initElements(new MetalloidControlDecorator(driver, new MetalloidControlLocatorFactory(searchContext)), page);
 		org.openqa.selenium.support.PageFactory
 				.initElements(new WebElementFieldDecorator(new DefaultElementLocatorFactory(searchContext)), page);
-		initComponents(driver, page);
+		initComponents(driver, searchContext, page);
 	}
 
-	private static void initComponents(WebDriver driver, Object page) {
-		initElements(driver, driver, page);
-	}
-
-	private static void initElements(WebDriver driver, SearchContext searchContext, Object page) {
+	private static void initComponents(WebDriver driver, SearchContext searchContext, Object page) {
 		for (Field field : page.getClass().getDeclaredFields()) {
 			Annotation findComponentAnnotation = field.getAnnotation(FindComponent.class);
 			if (findComponentAnnotation != null) {

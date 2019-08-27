@@ -3,6 +3,7 @@ package com.github.metalloid.pagefactory;
 import com.github.metalloid.pagefactory.controls.Control;
 import com.github.metalloid.pagefactory.exceptions.InvalidImplementationException;
 import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
@@ -36,9 +37,9 @@ public class MetalloidControlDecorator implements FieldDecorator {
 		}
 
 		if (Control.class.isAssignableFrom(field.getType())) {
-			return instantiateSingleControl(driver, field, locator.getLocator());
+			return instantiateSingleControl(driver, locator.getSearchContext(), field, locator.getLocator());
 		} else if (List.class.isAssignableFrom(field.getType())) {
-			return instantiateListOfControls(driver, field, locator);
+			return instantiateListOfControls(driver, locator.getSearchContext(), field, locator);
 		} else {
 			return null;
 		}
@@ -82,16 +83,16 @@ public class MetalloidControlDecorator implements FieldDecorator {
 		return clazz;
 	}
 
-	protected Control instantiateSingleControl(WebDriver driver, Field field, By by) {
+	protected Control instantiateSingleControl(WebDriver driver, SearchContext searchContext, Field field, By by) {
 		try {
-			return (Control) field.getType().getConstructor(WebDriver.class, By.class).newInstance(driver, by);
+			return (Control) field.getType().getConstructor(WebDriver.class, SearchContext.class, By.class).newInstance(driver, searchContext, by);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	protected <T> List<T> instantiateListOfControls(WebDriver driver, Field field, MetalloidControlLocator locator) {
+	protected <T> List<T> instantiateListOfControls(WebDriver driver, SearchContext searchContext, Field field, MetalloidControlLocator locator) {
 		Class<?> classToInstantiate = getListType(field);
 
 		List<T> controls = new ArrayList<>();
@@ -99,8 +100,8 @@ public class MetalloidControlDecorator implements FieldDecorator {
 
 			try {
 				@SuppressWarnings("unchecked")
-				T t = (T) Objects.requireNonNull(classToInstantiate).getConstructor(WebDriver.class, By.class, Integer.class)
-						.newInstance(driver, locator.getLocator(), i);
+				T t = (T) Objects.requireNonNull(classToInstantiate).getConstructor(WebDriver.class, SearchContext.class, By.class, Integer.class)
+						.newInstance(driver, searchContext, locator.getLocator(), i);
 				controls.add(t);
 			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 					| InvocationTargetException | SecurityException e) {
