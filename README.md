@@ -5,7 +5,7 @@ Maven dependency:
 <dependency>
 	<groupId>com.github.metalloid-project</groupId>
 	<artifactId>page-factory</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 </dependency>
 ```
 
