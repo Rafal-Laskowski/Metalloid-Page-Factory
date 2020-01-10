@@ -26,6 +26,6 @@ public class FindByParser {
 		else if (!findBy.style().equals(""))
 			return By.cssSelector(String.format("*[style='%s']", findBy.style()));
 
-		throw new RuntimeException("Not implemented");
+		throw new RuntimeException(String.format("FindBy: [%s] is not implemented", findBy.toString()));
 	}
 }

@@ -1,5 +1,6 @@
 package com.github.metalloid.pagefactory;
 
+import com.github.metalloid.logging.Logger;
 import com.github.metalloid.pagefactory.controls.Control;
 import com.github.metalloid.pagefactory.exceptions.InvalidImplementationException;
 import org.openqa.selenium.By;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class MetalloidControlDecorator implements FieldDecorator {
+	private Logger logger = new Logger(this);
 	protected final MetalloidControlLocatorFactory factory;
 	private final WebDriver driver;
 
@@ -28,11 +30,13 @@ public class MetalloidControlDecorator implements FieldDecorator {
 	@Override
 	public Object decorate(ClassLoader loader, Field field) {
 		if (!(Control.class.isAssignableFrom(field.getType()) || isDecorableList(field))) {
+			logger.warning("Field: [%s] is neither a control or List<>", field.getName());
 			return null;
 		}
 
 		MetalloidControlLocator locator = (MetalloidControlLocator) factory.createLocator(field);
 		if (locator == null) {
+			logger.warning("MetalloidControlLocator did not return the selector for field: [%s]", field.getName());
 			return null;
 		}
 
@@ -84,6 +88,7 @@ public class MetalloidControlDecorator implements FieldDecorator {
 	}
 
 	protected Control instantiateSingleControl(WebDriver driver, SearchContext searchContext, Field field, By by) {
+		logger.debug("Initializing Control.class for Field: [%s] with By: [%s]", field.getName(), by);
 		try {
 			return (Control) field.getType().getConstructor(WebDriver.class, SearchContext.class, By.class).newInstance(driver, searchContext, by);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
@@ -94,6 +99,8 @@ public class MetalloidControlDecorator implements FieldDecorator {
 
 	protected <T> List<T> instantiateListOfControls(WebDriver driver, SearchContext searchContext, Field field, MetalloidControlLocator locator) {
 		Class<?> classToInstantiate = getListType(field);
+
+		logger.debug("Initializing List<? extends Control> for field: [%s] with By: [%s]", field.getName(), locator.getLocator());
 
 		List<T> controls = new ArrayList<>();
 		for (int i = 0; i < locator.findElements().size(); i++) {

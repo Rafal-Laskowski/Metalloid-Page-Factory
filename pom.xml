@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.metalloid-project</groupId>
 	<artifactId>page-factory</artifactId>
-	<version>1.0.2</version>
+	<version>1.0.3.1</version>
 	<packaging>jar</packaging>
 
 	<name>Metalloid Page Factory</name>
@@ -95,6 +95,11 @@
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
 			<version>3.141.59</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.metalloid-project</groupId>
+			<artifactId>debug</artifactId>
+			<version>1.0.3</version>
 		</dependency>
 	</dependencies>
 

@@ -1,5 +1,6 @@
 package com.github.metalloid.pagefactory;
 
+import com.github.metalloid.logging.Logger;
 import com.github.metalloid.pagefactory.components.Component;
 import com.github.metalloid.pagefactory.components.FindComponent;
 import org.openqa.selenium.SearchContext;
@@ -10,6 +11,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
 public class PageFactory {
+	private static Logger logger = new Logger(PageFactory.class);
 
 	public static void init(WebDriver driver, Object page) {
 		init(driver, driver, page);
@@ -54,6 +56,7 @@ public class PageFactory {
 	}
 
 	private static void initializeControls(WebDriver driver, SearchContext searchContext, Object page) {
+		logger.debug("Initializing Controls and List<Control> in class: %s", page.getClass().getSimpleName());
 		org.openqa.selenium.support.PageFactory
 				.initElements(new MetalloidControlDecorator(driver, new MetalloidControlLocatorFactory(searchContext)), page);
 	}
