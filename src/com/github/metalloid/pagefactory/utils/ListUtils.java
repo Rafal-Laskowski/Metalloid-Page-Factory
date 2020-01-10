@@ -5,7 +5,6 @@ import com.github.metalloid.logging.Logger;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.List;
 
 public class ListUtils {
     private static Logger logger = new Logger(ListUtils.class);

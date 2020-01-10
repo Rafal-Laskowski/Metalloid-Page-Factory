@@ -2,7 +2,6 @@ package com.github.metalloid.pagefactory;
 
 import com.github.metalloid.logging.Logger;
 import com.github.metalloid.pagefactory.controls.Control;
-import com.github.metalloid.pagefactory.exceptions.InvalidImplementationException;
 import com.github.metalloid.pagefactory.utils.InstanceCreator;
 import com.github.metalloid.pagefactory.utils.ListUtils;
 import org.openqa.selenium.By;
@@ -13,9 +12,6 @@ import org.openqa.selenium.support.pagefactory.FieldDecorator;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
