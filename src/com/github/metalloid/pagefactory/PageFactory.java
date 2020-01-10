@@ -18,9 +18,14 @@ public class PageFactory {
 	}
 
 	private static void init(WebDriver driver, SearchContext searchContext, Object page) {
+		String className = page.getClass().getSimpleName();
+		logger.debug("Initializing Controls and List<Control> for Class: [%s]", className);
 		initializeControls(driver, searchContext, page);
+		logger.debug("Initializing WebElements and List<WebElement> for Class: [%s]", className);
 		initializeWebElements(searchContext, page);
+		logger.debug("Initializing Injectable Components for Class: [%s]", className);
 		initInjectableComponents(driver, searchContext, page);
+		logger.debug("Initializing Non-Injectable Components for Class: [%s]", className);
 		initNonInjectableComponents(driver, page);
 	}
 

@@ -3,6 +3,8 @@ package com.github.metalloid.pagefactory;
 import com.github.metalloid.logging.Logger;
 import com.github.metalloid.pagefactory.controls.Control;
 import com.github.metalloid.pagefactory.exceptions.InvalidImplementationException;
+import com.github.metalloid.pagefactory.utils.InstanceCreator;
+import com.github.metalloid.pagefactory.utils.ListUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -29,21 +31,25 @@ public class MetalloidControlDecorator implements FieldDecorator {
 
 	@Override
 	public Object decorate(ClassLoader loader, Field field) {
+		String fieldName = field.getName();
+
 		if (!(Control.class.isAssignableFrom(field.getType()) || isDecorableList(field))) {
-			logger.warning("Field: [%s] is neither a control or List<>", field.getName());
+			logger.warning("Field: [%s] is neither a control or List<>", fieldName);
 			return null;
 		}
 
 		MetalloidControlLocator locator = (MetalloidControlLocator) factory.createLocator(field);
 		if (locator == null) {
-			logger.warning("MetalloidControlLocator did not return the selector for field: [%s]", field.getName());
+			logger.warning("MetalloidControlLocator did not return the selector for field: [%s]", fieldName);
 			return null;
 		}
 
 		if (Control.class.isAssignableFrom(field.getType())) {
-			return instantiateSingleControl(driver, locator.getSearchContext(), field, locator.getLocator());
+			logger.debug("Field: [%s] is assignable from Control.class", fieldName);
+			return instantiateSingleControl(driver, field, locator);
 		} else if (List.class.isAssignableFrom(field.getType())) {
-			return instantiateListOfControls(driver, locator.getSearchContext(), field, locator);
+			logger.debug("Field: [%s] is assignable from List.class", fieldName);
+			return instantiateListOfControls(driver, field, locator);
 		} else {
 			return null;
 		}
@@ -54,7 +60,7 @@ public class MetalloidControlDecorator implements FieldDecorator {
 			return false;
 		}
 
-		Class<?> clazz = getListType(field);
+		Class<?> clazz = ListUtils.getListType(field);
 		
 		if (WebElement.class.equals(clazz)) {
 			return false;
@@ -68,57 +74,29 @@ public class MetalloidControlDecorator implements FieldDecorator {
 
 	}
 
-	private Class<?> getListType(Field field) {
-		// Type erasure in Java isn't complete. Attempt to discover the generic
-		// type of the list.
-		Type genericType = field.getGenericType();
-		if (!(genericType instanceof ParameterizedType)) {
-			return null;
-		}
-
-		Type listType = ((ParameterizedType) genericType).getActualTypeArguments()[0];
-
-		Class<?> clazz;
+	protected Control instantiateSingleControl(WebDriver driver, Field field, MetalloidControlLocator locator) {
+		logger.debug("Initializing Control.class for Field: [%s] with By: [%s]", field.getName(), locator.getLocator());
 		try {
-			clazz = Class.forName(listType.getTypeName());
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException(e);
-		}
-		return clazz;
-	}
-
-	protected Control instantiateSingleControl(WebDriver driver, SearchContext searchContext, Field field, By by) {
-		logger.debug("Initializing Control.class for Field: [%s] with By: [%s]", field.getName(), by);
-		try {
-			return (Control) field.getType().getConstructor(WebDriver.class, SearchContext.class, By.class).newInstance(driver, searchContext, by);
+			return (Control) field.getType().getConstructor(WebDriver.class, SearchContext.class, By.class).newInstance(driver, locator.getSearchContext(), locator.getLocator());
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	protected <T> List<T> instantiateListOfControls(WebDriver driver, SearchContext searchContext, Field field, MetalloidControlLocator locator) {
-		Class<?> classToInstantiate = getListType(field);
+	protected <T> List<T> instantiateListOfControls(WebDriver driver, Field field, MetalloidControlLocator locator) {
+		Class<?> classToInstantiate = ListUtils.getListType(field);
 
 		logger.debug("Initializing List<? extends Control> for field: [%s] with By: [%s]", field.getName(), locator.getLocator());
 
-		List<T> controls = new ArrayList<>();
-		for (int i = 0; i < locator.findElements().size(); i++) {
+		List<T> controls = new MetalloidControlList<>(driver, locator.getSearchContext(), locator.getLocator());
 
-			try {
-				@SuppressWarnings("unchecked")
-				T t = (T) Objects.requireNonNull(classToInstantiate).getConstructor(WebDriver.class, SearchContext.class, By.class, Integer.class)
-						.newInstance(driver, searchContext, locator.getLocator(), i);
-				controls.add(t);
-			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-					| InvocationTargetException | SecurityException e) {
-				throw new RuntimeException(e);
-			} catch (NoSuchMethodException f) {
-				throw new InvalidImplementationException(
-						"\nTo create a list of Controls, you need to create a constructor like this:\n"
-								+ "\npublic MyControlClass(WebDriver driver, By by, Integer integer) {\n"
-								+ "    super(driver, by, integer);\n" + "}");
-			}
+		List<WebElement> foundElements = locator.findElements();
+		logger.debug("Found [%d] elements with By: [%s]", foundElements.size(), locator.getLocator());
+		for (int i = 0; i < foundElements.size(); i++) {
+			@SuppressWarnings(value = "unchecked")
+			T t = (T) InstanceCreator.instanceOfControl(classToInstantiate, driver, locator.getSearchContext(), locator.getLocator(), i);
+			controls.add(t);
 		}
 		return controls;
 	}
