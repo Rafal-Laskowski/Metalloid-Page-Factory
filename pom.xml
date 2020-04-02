@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.metalloid-project</groupId>
 	<artifactId>page-factory</artifactId>
-	<version>1.0.4</version>
+	<version>2.0.0</version>
 	<packaging>jar</packaging>
 
 	<name>Metalloid Page Factory</name>
-	<url>https://github.com/Metalloid-Project/Metalloid-Page-Factory</url>
+	<url>https://github.com/Rafal-Laskowski/Metalloid-Page-Factory</url>
 	<description>Extension of Page Factory implemented in Selenium WebDriver library</description>
 
 	<properties>
@@ -124,15 +124,15 @@
 	<developers>
 		<developer>
 			<name>Rafał Laskowski</name>
-			<email>metalloidproject@gmail.com</email>
+			<email>rafal.laskowski@outlook.com</email>
 			<organization>TestOps - Rafał Laskowski</organization>
-			<organizationUrl>https://github.com/Metalloid-Project</organizationUrl>
+			<organizationUrl>https://github.com/Rafal-Laskowski</organizationUrl>
 		</developer>
 	</developers>
 
 	<scm>
-		<connection>scm:git:git://github.com/Metalloid-Project/Metalloid-Page-Factory.git</connection>
-		<developerConnection>scm:git:ssh://github.com/Metalloid-Project/Metalloid-Page-Factory.git</developerConnection>
-		<url>https://github.com/Metalloid-Project/Metalloid-Page-Factory</url>
+		<connection>scm:git:git://github.com/Rafal-Laskowski/Metalloid-Page-Factory.git</connection>
+		<developerConnection>scm:git:ssh://github.com/Rafal-Laskowski/Metalloid-Page-Factory.git</developerConnection>
+		<url>https://github.com/Rafal-Laskowski/Metalloid-Page-Factory</url>
 	</scm>
 </project>

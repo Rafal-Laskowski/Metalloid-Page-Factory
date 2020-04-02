@@ -12,6 +12,7 @@ import org.openqa.selenium.support.pagefactory.FieldDecorator;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -85,7 +86,7 @@ public class MetalloidControlDecorator implements FieldDecorator {
 
 		logger.debug("Initializing List<? extends Control> for field: [%s] with By: [%s]", field.getName(), locator.getLocator());
 
-		List<T> controls = new MetalloidControlList<>(driver, locator.getSearchContext(), locator.getLocator());
+		List<T> controls = new ArrayList<>();
 
 		List<WebElement> foundElements = locator.findElements();
 		logger.debug("Found [%d] elements with By: [%s]", foundElements.size(), locator.getLocator());
