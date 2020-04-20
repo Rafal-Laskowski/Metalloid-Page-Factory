@@ -31,7 +31,15 @@ public @interface FindBy {
 
 	String xpath() default "";
 
+	/**
+	 * Use `textContains() or `textEquals()` instead
+	 */
+	@Deprecated
 	String text() default "";
+
+	String textContains() default "";
+
+	String textEquals() default "";
 
 	String style() default "";
 
