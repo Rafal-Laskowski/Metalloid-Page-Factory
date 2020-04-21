@@ -2,9 +2,12 @@ package com.github.metalloid.pagefactory.components;
 
 import com.github.metalloid.pagefactory.FindBy;
 import com.github.metalloid.pagefactory.FindByParser;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public class Component implements SearchContext {
@@ -18,7 +21,7 @@ public class Component implements SearchContext {
 	 * @param driver
 	 * @param selector
 	 */
-	protected Component(WebDriver driver, By selector) {
+	public Component(WebDriver driver, By selector) {
 		this.driver = driver;
 		this.selector = selector;
 	}
@@ -28,7 +31,7 @@ public class Component implements SearchContext {
 	 * If you want to use @FindComponent annotation, use 2-argumented constructor.
 	 * @param driver
 	 */
-	protected Component(WebDriver driver) {
+	public Component(WebDriver driver) {
 		this.driver = driver;
 		FindBy findBy = this.getClass().getAnnotation(FindBy.class);
 		if (findBy != null) {
