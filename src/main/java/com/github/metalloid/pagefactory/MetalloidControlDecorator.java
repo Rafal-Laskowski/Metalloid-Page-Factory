@@ -2,8 +2,7 @@ package com.github.metalloid.pagefactory;
 
 import com.github.metalloid.logging.Logger;
 import com.github.metalloid.pagefactory.controls.Control;
-import com.github.metalloid.pagefactory.utils.InstanceCreator;
-import com.github.metalloid.pagefactory.utils.ListUtils;
+import com.github.metalloid.utils.ListUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -11,8 +10,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
+import java.lang.reflect.Proxy;
 import java.util.List;
 import java.util.Objects;
 
@@ -46,7 +46,7 @@ public class MetalloidControlDecorator implements FieldDecorator {
 			return instantiateSingleControl(driver, field, locator);
 		} else if (List.class.isAssignableFrom(field.getType())) {
 			logger.debug("Field: [%s] is assignable from List.class", fieldName);
-			return instantiateListOfControls(driver, field, locator);
+			return instantiateListOfControls(loader, driver, field, locator);
 		} else {
 			return null;
 		}
@@ -81,20 +81,14 @@ public class MetalloidControlDecorator implements FieldDecorator {
 		}
 	}
 
-	protected <T> List<T> instantiateListOfControls(WebDriver driver, Field field, MetalloidControlLocator locator) {
-		Class<?> classToInstantiate = ListUtils.getListType(field);
+	protected <T extends Control> List<T> instantiateListOfControls(ClassLoader loader, WebDriver driver, Field field, MetalloidControlLocator locator) {
+		Class<T> classToInstantiate = (Class<T>) ListUtils.getListType(field);
 
-		logger.debug("Initializing List<? extends Control> for field: [%s] with By: [%s]", field.getName(), locator.getLocator());
+		InvocationHandler handler = new LocatingControlListHandler<T>(classToInstantiate, driver, locator.getSearchContext(), locator.getLocator());
 
-		List<T> controls = new ArrayList<>();
-
-		List<WebElement> foundElements = locator.findElements();
-		logger.debug("Found [%d] elements with By: [%s]", foundElements.size(), locator.getLocator());
-		for (int i = 0; i < foundElements.size(); i++) {
-			@SuppressWarnings(value = "unchecked")
-			T t = (T) InstanceCreator.instanceOfControl(classToInstantiate, driver, locator.getSearchContext(), locator.getLocator(), i);
-			controls.add(t);
-		}
-		return controls;
+		List<T> proxy;
+		proxy = (List<T>) Proxy.newProxyInstance(
+				loader, new Class[]{List.class}, handler);
+		return proxy;
 	}
 }

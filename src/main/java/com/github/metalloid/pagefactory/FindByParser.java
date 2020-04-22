@@ -27,7 +27,7 @@ public class FindByParser {
 		else if (!findBy.textContains().equals(EMPTY))
 			return By.xpath(String.format("//*[contains(text(), '%s')]", findBy.textContains()));
 		else if (!findBy.textEquals().equals(EMPTY))
-			return By.xpath(String.format("//*[text() = '%s')]", findBy.textEquals()));
+			return By.xpath(String.format("//*[text() = '%s']", findBy.textEquals()));
 		else if (!findBy.style().equals(EMPTY))
 			return By.cssSelector(String.format("*[style='%s']", findBy.style()));
 

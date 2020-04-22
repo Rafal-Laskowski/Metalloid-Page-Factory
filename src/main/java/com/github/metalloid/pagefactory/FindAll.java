@@ -1,15 +1,15 @@
 package com.github.metalloid.pagefactory;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.AbstractFindByBuilder;
+import org.openqa.selenium.support.PageFactoryFinder;
+import org.openqa.selenium.support.pagefactory.ByAll;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.AbstractFindByBuilder;
-import org.openqa.selenium.support.PageFactoryFinder;
-import org.openqa.selenium.support.pagefactory.ByAll;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.FIELD, ElementType.TYPE })

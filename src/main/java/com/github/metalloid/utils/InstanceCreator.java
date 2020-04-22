@@ -1,4 +1,4 @@
-package com.github.metalloid.pagefactory.utils;
+package com.github.metalloid.utils;
 
 import com.github.metalloid.pagefactory.controls.Control;
 import com.github.metalloid.pagefactory.exceptions.InvalidImplementationException;
