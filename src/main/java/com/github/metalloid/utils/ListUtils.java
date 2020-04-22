@@ -1,4 +1,4 @@
-package com.github.metalloid.pagefactory.utils;
+package com.github.metalloid.utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;

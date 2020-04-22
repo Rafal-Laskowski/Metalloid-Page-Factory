@@ -2,13 +2,11 @@ package com.github.metalloid.pagefactory;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.pagefactory.Annotations;
 import org.openqa.selenium.support.pagefactory.DefaultElementLocator;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 
 import java.lang.reflect.Field;
-import java.util.List;
 
 public class MetalloidControlLocator extends DefaultElementLocator implements ElementLocator {
 	private final By by;
