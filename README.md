@@ -1,11 +1,11 @@
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.metalloid-project/page-factory/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.metalloid-project/page-factory)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.metalloid-project/metalloid-page-factory/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.metalloid-project/metalloid-page-factory)
 
 Maven dependency:
 ```
 <dependency>
 	<groupId>com.github.metalloid-project</groupId>
-	<artifactId>page-factory</artifactId>
-	<version>1.0.2</version>
+	<artifactId>metalloid-page-factory</artifactId>
+	<version>2.2.0</version>
 </dependency>
 ```
 
