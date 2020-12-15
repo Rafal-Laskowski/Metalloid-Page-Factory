@@ -5,6 +5,7 @@ import com.github.metalloid.pagefactory.PageFactory;
 import com.github.metalloid.pagefactory.components.Component;
 import org.openqa.selenium.WebDriver;
 
+import java.awt.*;
 import java.util.List;
 
 @FindBy(css = "div[jscontroller='mvYTse']")

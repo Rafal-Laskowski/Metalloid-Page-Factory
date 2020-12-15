@@ -17,14 +17,18 @@ import java.lang.reflect.Field;
 public @interface FindAll {
 	FindBy[] value();
 
-	class FindByBuilder extends AbstractFindByBuilder {
-		public By buildIt(Object annotation, Field field) {
-			FindAll findBys = (FindAll) annotation;
+	 class FindByBuilder extends AbstractFindByBuilder {
+		public FindByBuilder() {
+		}
 
-			FindBy[] findByArray = findBys.value();
+		public By buildIt(Object annotation, Field field) {
+			org.openqa.selenium.support.FindAll findBys = (org.openqa.selenium.support.FindAll)annotation;
+			this.assertValidFindAll(findBys);
+			org.openqa.selenium.support.FindBy[] findByArray = findBys.value();
 			By[] byArray = new By[findByArray.length];
-			for (int i = 0; i < findByArray.length; i++) {
-				byArray[i] = FindByParser.parse(findByArray[i]);
+
+			for(int i = 0; i < findByArray.length; ++i) {
+				byArray[i] = this.buildByFromFindBy(findByArray[i]);
 			}
 
 			return new ByAll(byArray);
