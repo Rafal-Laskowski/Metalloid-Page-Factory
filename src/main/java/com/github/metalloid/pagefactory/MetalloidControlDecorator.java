@@ -67,7 +67,7 @@ public class MetalloidControlDecorator implements FieldDecorator {
 			return false;
 		}
 
-		return field.getAnnotation(FindBy.class) != null || field.getAnnotation(FindAll.class) != null;
+		return field.getAnnotation(FindBy.class) != null || field.getAnnotation(FindAll.class) != null || field.getAnnotation(FindBys.class) != null;
 
 	}
 

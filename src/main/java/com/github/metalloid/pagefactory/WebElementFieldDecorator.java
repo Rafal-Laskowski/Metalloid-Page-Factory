@@ -35,7 +35,7 @@ public class WebElementFieldDecorator extends DefaultFieldDecorator implements F
 	    }
 
 		return field.getAnnotation(FindBy.class) != null ||
-				field.getAnnotation(FindAll.class) != null;
+				field.getAnnotation(FindAll.class) != null || field.getAnnotation(FindBys.class) != null;
 
 	}
 
