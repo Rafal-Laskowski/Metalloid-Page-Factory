@@ -18,17 +18,12 @@ public @interface FindBys {
     FindBy[] value();
 
     class FindByBuilder extends AbstractFindByBuilder {
-        public FindByBuilder() {
-        }
-
         public By buildIt(Object annotation, Field field) {
-            org.openqa.selenium.support.FindBys findBys = (org.openqa.selenium.support.FindBys)annotation;
-            this.assertValidFindBys(findBys);
-            org.openqa.selenium.support.FindBy[] findByArray = findBys.value();
+            FindBys findBys = (FindBys) annotation;
+            FindBy[] findByArray = findBys.value();
             By[] byArray = new By[findByArray.length];
-
             for(int i = 0; i < findByArray.length; ++i) {
-                byArray[i] = this.buildByFromFindBy(findByArray[i]);
+                byArray[i] = FindByParser.parse(findByArray[i]);
             }
 
             return new ByChained(byArray);
